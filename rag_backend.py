@@ -3,7 +3,7 @@ import os
 from retriever import get_macro_info
 import streamlit as st
 
-OpenAI.api_key = st.secrets["OPENAI_API_KEY"]
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def build_prompt(ingredients: list, meal_type: str, meal_targets: dict):
     found = []
