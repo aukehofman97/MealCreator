@@ -10,7 +10,7 @@ def build_prompt(ingredients: list, meal_type: str, meal_targets: dict):
     missing = []
 
     for ing in ingredients:
-        row, source = get_macro_info(ing)
+        row, macro, source = get_macro_info(ing)
         if row:
             found.append((ing, row, source))
         else:
