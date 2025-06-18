@@ -1,4 +1,4 @@
-import openai
+from openai import OpenAI, APIError
 import os
 from retriever import get_macro_info
 import streamlit as st
@@ -35,12 +35,15 @@ Nutritional data:
     prompt += "\nSuggest a meal composition using the ingredients, in exact quantities to meet the macro goals.\n"
     return prompt
 
-def call_llm(prompt):
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are a helpful meal planner."},
-            {"role": "user", "content": prompt}
-        ]
-    )
-    return response['choices'][0]['message']['content']
+def call_llm(prompt: str) -> str:
+    try:
+        response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a helpful meal planner."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        return response.choices[0].message.content
+    except APIError as e:
+        return f"OpenAI API error: {e}"
