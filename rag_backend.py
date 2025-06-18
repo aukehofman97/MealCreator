@@ -3,8 +3,6 @@ import os
 from retriever import get_macro_info
 import streamlit as st
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
 def build_prompt(ingredients: list, meal_type: str, meal_targets: dict):
     found = []
     missing = []
@@ -37,6 +35,7 @@ Nutritional data:
 
 def call_llm(prompt: str) -> str:
     try:
+        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         response = client.chat.completions.create(
             model="gpt-4",
             messages=[
